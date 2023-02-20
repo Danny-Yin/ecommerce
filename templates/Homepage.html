@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<main>
+    <header>Welcome to My Homepage</header>
+    {% if request.session.user %}
+        <h1> {{ request.session.user.username }}, Welcome to our store!</h1>
+        <h1> Please <a href="{% url 'myShoppingCart' %}">shopping cart</a>!</h1>
+    {% else %}
+        <h1> Please <a href="{% url 'Login' %}">log in</a>!</h1>
+    {% endif %}
+
+
+    {% if messages %}
+        {% for m in messages %}
+            {{ m }}
+        {% endfor %}
+    {% endif %}
+
+    <style>
+        .product-item {
+            display: inline-block;
+            margin: 45px;
+        }
+    </style>
+    <div class="product-list">
+        {% for product in item %}
+            <div class="product-item">
+                    <img src="{{ product.img_url }}" alt="{{ product.name }}" height="200" width="200">
+                    <div class="product-details">
+                        <h2>{{ product.name }}</h2>
+                        <p>{{ product.description }}</p>
+                        <p class="product-price">{{ product.price }}</p>
+                <form method="POST" ACTION="{% url 'add_product' product.id %}">
+                    {% csrf_token %}
+                    <button type="submit"> ADD TO CART</button>
+                </form>
+            </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</main>
+</body>
+</html>

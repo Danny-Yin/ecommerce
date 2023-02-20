@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>shoppingCart</title>
+</head>
+<body>
+<h1>My Shopping Cart</h1>
+{% if items_in_cart %}
+    <ul>
+    {% for item in items_in_cart %}
+        <ul>
+            <li>
+                <h3>Product Name: {{ item.0 }}</h3>
+                <p>Product Quantity:{{ item.1 }}</p>
+                <p>Unit Price: {{ item.2 }}</p>
+                <p>Sub Total: {{ item.3 }}</p>
+            </li>
+            <form method="POST" ACTION="{% url 'add_number' item.5 %}">
+                {% csrf_token %}
+                <button type="submit"> +</button>
+            </form>
+
+            <form method="POST" ACTION="{% url 'reduce_number' item.5%}">
+                {% csrf_token %}
+                <button type="submit"> -</button>
+            </form>
+
+            <form method="POST" ACTION="{% url 'no_number' item.5%}">
+                {% csrf_token %}
+                <button type="submit"> DELETE</button>
+            </form>
+        </ul>
+    {% endfor %}
+    <h2> Total Price: {{ total_price }} </h2>
+
+{% endif %}
+</body>
+</html>
